@@ -52,6 +52,7 @@ public class ZoomPanLayout extends ViewGroup {
 	private double maxScale = 1;
 
 	private boolean scaleToFit = true;
+	private boolean doubleTapZoomOut = false;
 
 	private Point pinchStartScroll = new Point();
 	private Point pinchStartOffset = new Point();
@@ -495,6 +496,10 @@ public class ZoomPanLayout extends ViewGroup {
 		startSmoothScaleTo( destination, duration );
 	}
 
+	public void setDoubleTapZoomOut( boolean doubleTapZoomOut ) {
+		this.doubleTapZoomOut = doubleTapZoomOut;
+	}
+
 	//------------------------------------------------------------------------------------
 	// PRIVATE/PROTECTED
 	//------------------------------------------------------------------------------------
@@ -872,7 +877,7 @@ public class ZoomPanLayout extends ViewGroup {
 				saveHistoricalScale();
 				saveDoubleTapHistory();
 				double destination;
-				if ( scale >= maxScale ) {
+				if ( scale >= maxScale && doubleTapZoomOut ) {
 					destination = minScale;
 				} else {
 					destination = Math.min( maxScale, scale * 2 );
